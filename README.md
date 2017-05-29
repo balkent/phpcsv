@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PHPCSV
 
 Initialisation
@@ -5,3 +6,6 @@ Initialisation
 
 Run
 > php index.php
+=======
+# PHPCSV
+>>>>>>> f6b70ac (build(core): Initial commit)
