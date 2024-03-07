@@ -3,29 +3,41 @@
 namespace App;
 
 use App\Entity\User;
-use League\Csv\Writer;
+use App\Builder\CsvBuilder;
 use Doctrine\ORM\EntityManager;
 
 class Run
 {
-	const PUBLIC_PATH = __DIR__.'/../public';
-	const UPLOADS_PATH = self::PUBLIC_PATH.'/Uploads';
+    public const PUBLIC_PATH = __DIR__.'/../public';
+    public const UPLOADS_PATH = self::PUBLIC_PATH.'/Uploads';
 
-	public function process(EntityManager $entityManager): void
-	{
-		$productRepository = $entityManager->getRepository(User::class);
-		$users = $productRepository->findAll();
+    public function process(EntityManager $entityManager): void
+    {
+        $jsonSchema = <<<JSON
+		[
+			{
+				"header": "id",
+				"field": "id"
+			},
+			{
+				"header": "first name",
+				"field": "firstname"
+			},
+			{
+				"header": "last name",
+				"field": "name"
+			}
+		]
+		JSON;
 
-		$header = ['id', 'first name', 'last name'];
+        $productRepository = $entityManager->getRepository(User::class);
+        $users = $productRepository->findAll();
 
-		$writer = Writer::createFromPath(self::UPLOADS_PATH.'/file.csv', 'r+');
-		$writer->insertOne($header);
-		foreach ($users as $user) {
-			$writer->insertOne([
-				$user->getId(),
-				$user->getFirstname(),
-				$user->getName(),
-			]);
-		}
-	}
+        $csvBuilder = new CsvBuilder();
+        $csvBuilder->build(
+            self::UPLOADS_PATH.'/file.csv',
+            $jsonSchema,
+            $users
+        );
+    }
 }

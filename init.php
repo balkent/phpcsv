@@ -16,6 +16,6 @@ $loader = new NativeLoader();
 $userFixtures = $loader->loadFile(FIXTURE_PATH.'/user.fixtures.yaml');
 
 foreach ($userFixtures->getObjects() as $userFixture) {
-	$entityManager->persist($userFixture);
+    $entityManager->persist($userFixture);
 }
 $entityManager->flush();
