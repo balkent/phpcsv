@@ -6,4 +6,5 @@ require_once "bootstrap.php";
 
 use App\Run;
 
-Run::process($entityManager);
+$run = new Run();
+$run->process($entityManager);

@@ -4,8 +4,11 @@ use Nelmio\Alice\Loader\NativeLoader;
 
 require_once "bootstrap.php";
 
-const FIXTURE_PATH = __DIR__.'/public/Fixtures';
+const PUBLIC_PATH = __DIR__.'/public';
+const FIXTURE_PATH = PUBLIC_PATH.'/Fixtures';
+const UPLOADS_PATH = PUBLIC_PATH.'/Uploads';
 
+exec('touch '.UPLOADS_PATH.'/file.csv');
 exec('php bin/doctrine.php orm:schema-tool:drop --force');
 exec('php bin/doctrine.php orm:schema-tool:create');
 
